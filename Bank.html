@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+      <script src="web3.min.js"></script>
+
+    <title>bank</title>	
+    
+  </head>
+  <body>
+<body  bgcolor="lavender">
+<h1><center>Bank </h1>
+ 
+
+<label><center>address to<input type="text" id="ttname"></label><br><br>
+<label>amount<input type="text" id="tname"></label><br><br>
+<label><button id="transferid" onclick="transfer()"><b>transfer</b></label></button><br><br>
+
+<label>amount<input type="text" id="value"></label><br><br>
+<label><button id="mint" onclick="mint()"><b>mint</b></label></button><br><br>
+
+
+<label>address<input type="text" id="bname"></label><br><br>
+<label><button id="balanceOfid" onclick="balanceOf()"> <b>balanceOf</b></label></button><br><br>
+
+
+<label><button id="totalsupply" onclick="totalsupply()"><b>totalsupply</b></label></button><br><br>
+
+
+<label>addressto<input type="text" id="aato"></label>
+<label>amount<input type="text" id="aavalue"></label>
+<label><button id="approveid" onclick="approve()"><b>approve</b></label></button><br><br>
+
+<label>add from<input type="text" id="afrom"></label>
+<label>add to<input type="text" id="ato"></label>
+<label>amount<input type="text" id="avalue"></label>
+<label><button id="transferFromid" onclick="transferFrom()"><b>transferFrom</b></label></button><br><br>
+
+
+<label>owner address<input type="text" id="aowner"></label><br><br>
+<label>spender address<input type="text" id="aspender"></label><br><br>
+<label><button id=allowanceid" onclick="allowance()"><b>allowance</b></label></button><br><br>
+
+
+<pre id="hashresult"></pre>
+ Previous Hash : <pre id="prehashresult"></pre>
+</center>
+  </body>
+<script>
+    web3.eth.defaultAccount = web3.eth.accounts[0];
+        var bank = web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalsupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "balances",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]);
+var abbu=bank.at('0xe1ddf7b2439212eebd9f77be4d70433bd24ff8eb');
+var a=document.getElementById('ttname');
+var b=document.getElementById('tname');
+
+var c=document.getElementById('value');
+
+var d=document.getElementById('bname');
+
+var e=document.getElementById('aato');
+var f=document.getElementById('aavalue');
+
+var g=document.getElementById('afrom');
+var h=document.getElementById('ato');
+var i=document.getElementById('avalue');
+
+var j=document.getElementById('aowner');
+var k=document.getElementById('aspender');
+
+var output = document.getElementById('hashresult');
+ var preoutput = document.getElementById('prehashresult');
+ if(!web3.isConnected()) {
+   console.log("Ok");
+          }
+ else {
+        console.log("no");
+      }
+ web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+              case "1":
+                console.log('This is mainnet')
+                break
+              case "2":
+                console.log('This is the deprecated Morden test network.')
+                break
+              case "3":
+                console.log('This is the ropsten test network.')
+                break
+              case "4":
+                console.log('This is the Rinkeby test network.')
+                break
+              case "42":
+                console.log('This is the Kovan test network.')
+                break
+              default:
+                console.log('This is an unknown network.')
+            }
+        })
+function transfer()
+{    
+  return abbu.transfer(a.value,b.value,function(err,res){
+                if (!err) {
+	
+                  output.innerText = res;
+                }
+                else{
+                  output.innerText = "Error";
+                }
+});
+}
+function mint()
+{    
+  return abbu.mint(c.value,function(err,res){
+                if (!err) {
+	
+                  output.innerText = res;
+                }
+                else{
+                  output.innerText = "Error";
+                }
+});
+}
+function balanceOf()
+{    
+  return abbu.balanceOf(d.value,function(err,res){
+                if (!err) {
+	
+                  output.innerText = res;
+                }
+                else{
+                  output.innerText = "Error";
+                }
+});
+}
+function approve()
+{    
+  return abbu.approve(e.value,f.value,function(err,res){
+                if (!err) {
+	
+                  output.innerText = res;
+                }
+                else{
+                  output.innerText = "Error";
+                }
+});
+}
+function transferFrom()
+{    
+  return abbu.transferFrom(g.value,h.value,i.value,function(err,res){
+                if (!err) {
+	
+                  output.innerText = res;
+                }
+                else{
+                  output.innerText = "Error";
+                }
+});
+}
+
+function allowance()
+{    
+  return abbu.allowance(j.value,k.value,function(err,res){
+                if (!err) {
+	
+                  output.innerText = res;
+                }
+                else{
+                  output.innerText = "Error";
+                }
+});
+}
+
+
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
